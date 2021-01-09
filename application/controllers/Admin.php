@@ -26,7 +26,7 @@ class Admin extends CI_Controller
     public function penduduk()
     {
         $data['judul'] = 'Data Penduduk';
-        $data['penduduk'] = $this->admin_model->read('penduduk');
+        $data['penduduk'] = $this->admin_model->penduduk();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/topbar');
         $this->load->view('templates/sidebar');
@@ -104,7 +104,7 @@ class Admin extends CI_Controller
             'agama' => $agama,
             'pendidikan' => $pendidikan,
             'pekerjaan' => $pekerjaan,
-            'status' => 0
+            'status' => 1
         ];
         $this->admin_model->update($where, $data, 'penduduk');
         redirect('admin/penduduk');
@@ -202,7 +202,6 @@ class Admin extends CI_Controller
     }
     public function kelahiran_act()
     {
-
         $no_kk = $this->input->post('no_kk');
         $nama = $this->input->post('nama');
         $tempat_lh = $this->input->post('tempat_lh');
@@ -291,5 +290,107 @@ class Admin extends CI_Controller
         ];
         $this->admin_model->insert($data2, 'pendatang');
         redirect('admin/pendatang');
+    }
+    public function pindah()
+    {
+        $data['judul'] = 'Penduduk Pindah';
+        $data['pindah'] = $this->admin_model->pindah();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/pindah', $data);
+        $this->load->view('templates/footer');
+    }
+    public function pindah_add()
+    {
+        $data['judul'] = 'Perpindahan';
+        $data['penduduk'] = $this->admin_model->penduduk();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/pindahpenduduk', $data);
+        $this->load->view('templates/footer');
+    }
+    public function pindah_penduduk($id)
+    {
+        $where = array('id' => $id);
+        $data['penduduk'] = $this->admin_model->edit($where, 'penduduk');
+        $data['judul'] = 'Perpindahan';
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/pindahadd', $data);
+        $this->load->view('templates/footer');
+    }
+    public function pindah_act()
+    {
+        $id = $this->input->post('id');
+        $tgl_pindah = $this->input->post('tgl');
+        $tujuan = $this->input->post('tujuan');
+        $ket = $this->input->post('ket');
+        $data = [
+            'id_penduduk' => $id,
+            'tgl_pindah' => $tgl_pindah,
+            'tujuan' => $tujuan,
+            'ket' => $ket
+        ];
+        $this->admin_model->insert($data, 'pindah');
+        $this->admin_model->update(['id' => $id], ['status' => 0], 'penduduk');
+        redirect('admin/pindah');
+    }
+    public function kematian()
+    {
+        $data['judul'] = 'Kematian';
+        $data['kematian'] = $this->admin_model->kematian();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/kematian', $data);
+        $this->load->view('templates/footer');
+    }
+    public function mati_add()
+    {
+        $data['judul'] = 'Kematian';
+        $data['penduduk'] = $this->admin_model->penduduk();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/penduduk_mati', $data);
+        $this->load->view('templates/footer');
+    }
+    public function kematian_add($id)
+    {
+        $where = array('id' => $id);
+        $data['penduduk'] = $this->admin_model->edit($where, 'penduduk');
+        $data['judul'] = 'Kematian';
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/matiadd', $data);
+        $this->load->view('templates/footer');
+    }
+    public function mati_act()
+    {
+        $id = $this->input->post('id');
+        $tgl = $this->input->post('tgl');
+        $sebab = $this->input->post('sebab');
+        $data = [
+            'id_penduduk' => $id,
+            'tgl_meninggal' => $tgl,
+            'sebab' => $sebab
+        ];
+        $this->admin_model->insert($data, 'meninggal');
+        $this->admin_model->update(['id' => $id], ['status' => 0], 'penduduk');
+        redirect('admin/kematian');
+    }
+    public function fam()
+    {
+        $data['judul'] = 'Keluarga';
+        $data['penduduk'] = $this->admin_model->penduduk();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/penduduk_mati', $data);
+        $this->load->view('templates/footer');
     }
 }

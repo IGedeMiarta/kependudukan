@@ -30,4 +30,16 @@ class Admin_Model extends CI_Model
     {
         return $this->db->query("")->result();
     }
+    function pindah()
+    {
+        return $this->db->query("SELECT * FROM pindah JOIN penduduk ON pindah.id_penduduk=penduduk.id")->result();
+    }
+    function penduduk()
+    {
+        return $this->db->query("SELECT * FROM penduduk WHERE status != 0")->result();
+    }
+    function kematian()
+    {
+        return $this->db->query("SELECT * FROM meninggal JOIN penduduk ON meninggal.id_penduduk=penduduk.id")->result();
+    }
 }

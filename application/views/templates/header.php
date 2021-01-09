@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>
-        <?= $judul ?> | Kependudukan
+        <?= $judul ?> | Sistem Kependudukan
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A premium admin dashboard template by mannatthemes" name="description" />
