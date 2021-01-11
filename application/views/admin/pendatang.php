@@ -49,10 +49,10 @@
                                             <td><?= $p->agama ?></td>
                                             <td><?= $p->pendidikan ?></td>
                                             <td><?= $p->pekerjaan ?></td>
-                                            <td><?= $p->alamat_tinggal ?></td>
+                                            <td><?= 'RT/RW ' . $p->rt_rw . ', ' . $p->alamat_tinggal ?></td>
                                             <td>
-                                                <a href="<?= base_url('admin/pendatang_edit/') . $p->id ?>" class="badge badge-warning"><i class="fas fa-edit"> Edit</i></a>
-                                                <a href="<?= base_url('admin/pendatang_del/') . $p->id ?>" class="badge badge-danger"><i class="fas fa-trash"> Hapus</i></a>
+                                                <a href="<?= base_url('admin/pendatang_edit/') . $p->kd_pendatang ?>" class="badge badge-warning"><i class="fas fa-edit"> Edit</i></a>
+                                                <a href="<?= base_url('admin/pendatang_del/') . $p->kd_pendatang ?>" class="badge badge-danger"><i class="fas fa-trash"> Hapus</i></a>
                                             </td>
                                         </tr>
                                     <?php } ?>

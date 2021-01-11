@@ -14,39 +14,39 @@
             </div>
             <div class="card-body">
                 <div class="container">
-                    <form action="<?= base_url('admin/pendatang_act') ?>" method="POST">
+                    <form action="<?= base_url('admin/pendatang_update/') . $edit['id'] ?>" method="POST">
                         <div class="row">
                             <div class="col-lg-11">
                                 <div class="form-group row">
                                     <label class="col-sm-2 ">NIK</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" placeholder="Nomer Induk Kependudukan" type="number" name="nik">
+                                        <input class="form-control" placeholder="Nomer Induk Kependudukan" value="<?= $edit['nik'] ?>" type="number" name="nik" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 ">Nama</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" placeholder="Nama Lengkap" type="text" name="nama">
+                                        <input class="form-control" placeholder="Nama Lengkap" type="text" name="nama" value="<?= $edit['nama'] ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 ">Tempat Lahir</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" placeholder="Tempat Lahir" type="text" name="tempat_lh">
+                                        <input class="form-control" placeholder="Tempat Lahir" type="text" name="tempat_lh" value="<?= $edit['tempat_lh'] ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 ">Tanggal Lahir</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" placeholder="Tanggal Lahir" type="date" name="tgl_lh">
+                                        <input class="form-control" placeholder="Tanggal Lahir" type="date" name="tgl_lh" value="<?= $edit['tgl_lh'] ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2" for="jenis_kelamin">Jenis Kelamin</label>
                                     <div class="col-sm">
                                         <div class="form-group">
-                                            <label><input type="radio" name="jenis_kelamin" value="L"> Laki-laki</label>
-                                            <label><input type="radio" name="jenis_kelamin" value="P"> Perempuan</label>
+                                            <label><input type="radio" name="jenis_kelamin" value="L" <?php echo ($edit['jenkel'] == 'L' ? ' checked' : ''); ?>> Laki-laki</label>
+                                            <label><input type="radio" name="jenis_kelamin" value="P" <?php echo ($edit['jenkel'] == 'P' ? ' checked' : ''); ?>> Perempuan</label>
                                         </div>
                                     </div>
                                 </div>
@@ -54,7 +54,7 @@
                                     <label class="col-sm-2">Agama</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" name="agama">
-                                            <option>--pilih--</option>
+                                            <option value="<?= $edit['agama'] ?>"><?= $edit['agama'] ?></option>
                                             <option value="Islam">Islam</option>
                                             <option value="Kristen">Kristen</option>
                                             <option value="Katolik">Katolik</option>
@@ -67,33 +67,19 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 ">Pendidikan</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" placeholder="Pendidikan..." type="text" name="pendidikan">
+                                        <input class="form-control" placeholder="Pendidikan..." type="text" name="pendidikan" value="<?= $edit['pendidikan'] ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 ">Pekerjaan</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" placeholder="Pekerjaan..." type="text" name="pekerjaan">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-2">RT/RW</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control" name="rt">
-                                            <option>--pilih--</option>
-                                            <?php
-                                            $rt = $this->db->get('rt_rw')->result();
-                                            foreach ($rt as $r) {
-                                            ?>
-                                                <option value="<?= $r->kd ?>"><?= $r->rt_rw ?></option>
-                                            <?php } ?>
-                                        </select>
+                                        <input class="form-control" placeholder="Pekerjaan..." type="text" name="pekerjaan" value="<?= $edit['pekerjaan'] ?>">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 ">Tempat Tinggal</label>
                                     <div class="col-sm-10">
-                                        <textarea name="tempat_tinggal" class="form-control" id="" cols="30" rows="10"></textarea>
+                                        <textarea name="tempat_tinggal" class="form-control" id="" cols="30" rows="10"><?= $edit['alamat_tinggal'] ?></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">

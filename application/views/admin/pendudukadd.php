@@ -30,6 +30,20 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label class="col-sm-2 ">RT/RW</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" name="rt_rw" id="">
+                                            <option selected>--pilih</option>
+                                            <?php
+                                            $rt_rw = $this->db->get('rt_rw')->result();
+                                            ?>
+                                            <?php foreach ($rt_rw as $r) { ?>
+                                                <option value="<?= $r->kd ?>"><?= $r->rt_rw ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label class="col-sm-2 ">Tempat Lahir</label>
                                     <div class="col-sm-10">
                                         <input class="form-control" placeholder="Tempat Lahir" type="text" name="tempat_lh">

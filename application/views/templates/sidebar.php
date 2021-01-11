@@ -16,15 +16,15 @@
                  <li>
                      <a href="javascript: void(0);"><i class="mdi mdi-apps"></i><span>Master Data</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                      <ul class="nav-second-level" aria-expanded="false">
+                         <li><a href="<?= base_url('admin/rt_rw') ?>"><span>Data RT/RW</span></a></li>
                          <li><a href="<?= base_url('admin/penduduk') ?>"><span>Data Penduduk</span></a></li>
-                         <li><a href="<?= base_url('admin/datakk') ?>"><span>Data KK</span></a></li>
                      </ul>
                  </li>
 
                  <li>
                      <a href="javascript: void(0);"><i class="mdi mdi-rename-box"></i><span>Pencatan</span><span class="menu-arrow"><i class="mdi mdi-chevron-right"></i></span></a>
                      <ul class="nav-second-level" aria-expanded="false">
-                         <li><a href="<?= base_url('admin/fam') ?>"><span>Anggota Keluarga</span></a></li>
+                         <li><a href="<?= base_url('admin/datakk') ?>"><span>KK</span></a></li>
                          <li><a href="<?= base_url('admin/kelahiran') ?>"><span>Kelahiran</span></a></li>
                          <li><a href="<?= base_url('admin/pendatang') ?>"><span>Pendatang</span></a></li>
                          <li><a href="<?= base_url('admin/pindah') ?>"><span>Perpidahan</span></a></li>

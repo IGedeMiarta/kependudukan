@@ -54,8 +54,10 @@ class Admin extends CI_Controller
         $agama = $this->input->post('agama');
         $pendidikan = $this->input->post('pendidikan');
         $pekerjaan = $this->input->post('pekerjaan');
+        $rt_rw = $this->input->post('rt_rw');
 
         $data = [
+            'rt_rw' => $rt_rw,
             'nik' => $nik,
             'nama' => $nama,
             'tempat_lh' => $tempat_lh,
@@ -94,6 +96,7 @@ class Admin extends CI_Controller
         $pendidikan = $this->input->post('pendidikan');
         $pekerjaan = $this->input->post('pekerjaan');
 
+
         $where = array('id' => $id);
         $data = [
             'nik' => $nik,
@@ -107,6 +110,20 @@ class Admin extends CI_Controller
             'status' => 1
         ];
         $this->admin_model->update($where, $data, 'penduduk');
+        $pindah = $this->admin_model->edit(['nik' => $nik], 'pendatang');
+        $p = $pindah['nik'];
+        if ($nik == $p) {
+            $data2 = [
+                'nama' => $nama,
+                'tempat_lh' => $tempat_lh,
+                'tgl_lh' => $tgl_lh,
+                'jenkel' => $jenkel,
+                'agama' => $agama,
+                'pendidikan' => $pendidikan,
+                'pekerjaan' => $pekerjaan,
+            ];
+            $this->admin_model->update(['nik' => $nik], $data2, 'pendatang');
+        }
         redirect('admin/penduduk');
     }
     public function penduduk_del($id)
@@ -237,7 +254,7 @@ class Admin extends CI_Controller
     public function pendatang()
     {
         $data['judul'] = 'Data Pendatang';
-        $data['pendatang'] = $this->admin_model->read('pendatang');
+        $data['pendatang'] = $this->admin_model->pendatang();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/topbar');
         $this->load->view('templates/sidebar');
@@ -265,7 +282,9 @@ class Admin extends CI_Controller
         $pendidikan = $this->input->post('pendidikan');
         $pekerjaan = $this->input->post('pekerjaan');
         $alamat_tinggal = $this->input->post('tempat_tinggal');
+        $rt_rw = $this->input->post('rt');
         $data = [
+            'rt_rw' => $rt_rw,
             'nik' => $nik,
             'nama' => $nama,
             'tempat_lh' => $tempat_lh,
@@ -291,6 +310,67 @@ class Admin extends CI_Controller
         $this->admin_model->insert($data2, 'pendatang');
         redirect('admin/pendatang');
     }
+    public function pendatang_edit($id)
+    {
+        $data['judul'] = 'Edit Pendatang';
+        $data['edit'] = $this->admin_model->edit(['id' => $id], 'pendatang');
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/pendatang_edt', $data);
+        $this->load->view('templates/footer');
+    }
+    public function pendatang_update($id)
+    {
+        $nik = $this->input->post('nik');
+        $nama = $this->input->post('nama');
+        $tempat_lh = $this->input->post('tempat_lh');
+        $tgl_lh = $this->input->post('tgl_lh');
+        $jenkel = $this->input->post('jenis_kelamin');
+        $agama = $this->input->post('agama');
+        $pendidikan = $this->input->post('pendidikan');
+        $pekerjaan = $this->input->post('pekerjaan');
+        $alamat_tinggal = $this->input->post('tempat_tinggal');
+        $data = [
+
+            'nama' => $nama,
+            'tempat_lh' => $tempat_lh,
+            'tgl_lh' => $tgl_lh,
+            'jenkel' => $jenkel,
+            'agama' => $agama,
+            'pendidikan' => $pendidikan,
+            'pekerjaan' => $pekerjaan,
+            'status' => 2
+        ];
+        $this->admin_model->update(['nik' => $nik], $data, 'penduduk');
+
+        $pindah = $this->admin_model->edit(['nik' => $nik], 'pendatang');
+        $p = $pindah['nik'];
+        if ($nik == $p) {
+            $data2 = [
+
+                'nama' => $nama,
+                'tempat_lh' => $tempat_lh,
+                'tgl_lh' => $tgl_lh,
+                'jenkel' => $jenkel,
+                'agama' => $agama,
+                'pendidikan' => $pendidikan,
+                'pekerjaan' => $pekerjaan,
+                'alamat_tinggal' => $alamat_tinggal
+            ];
+            $this->admin_model->update(['id' => $id], $data2, 'pendatang');
+        }
+        redirect('admin/pendatang');
+    }
+    public function pendatang_del($id)
+    {
+        $data = $this->admin_model->edit(['id' => $id], 'pendatang');
+        $nik = $data['nik'];
+        $this->admin_model->delete(['nik' => $nik], 'penduduk');
+        $this->admin_model->delete(['id' => $nik], 'pendatang');
+        redirect('admin/pendatang');
+    }
+
     public function pindah()
     {
         $data['judul'] = 'Penduduk Pindah';
@@ -392,5 +472,68 @@ class Admin extends CI_Controller
         $this->load->view('templates/sidebar');
         $this->load->view('admin/penduduk_mati', $data);
         $this->load->view('templates/footer');
+    }
+
+    public function rt_rw()
+    {
+        $data['judul'] = 'RT/RW';
+        $data['penduduk'] = $this->admin_model->read('rt_rw');
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/rt_rw', $data);
+        $this->load->view('templates/footer');
+    }
+    public function rt_rw_add()
+    {
+        $data['judul'] = 'Tambah RT/RW';
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/rt_rw_add');
+        $this->load->view('templates/footer');
+    }
+    public function rt_rw_act()
+    {
+        $rt_rw = $this->input->post('rt_rw');
+        $k_rt = $this->input->post('k_rt');
+        $k_rw = $this->input->post('k_rw');
+
+        $data = [
+            'rt_rw' => $rt_rw,
+            'k_rt' => $k_rt,
+            'k_rw' => $k_rw
+        ];
+        $this->admin_model->insert($data, 'rt_rw');
+        redirect('admin/rt_rw');
+    }
+    public function rt_edt($kd)
+    {
+        $data['judul'] = 'Tambah RT/RW';
+        $data['rt'] = $this->admin_model->edit(['kd' => $kd], 'rt_rw');
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/rt_rw_edt', $data);
+        $this->load->view('templates/footer');
+    }
+    public function rt_rw_update($kd)
+    {
+        $rt_rw = $this->input->post('rt_rw');
+        $k_rt = $this->input->post('k_rt');
+        $k_rw = $this->input->post('k_rw');
+
+        $data = [
+            'rt_rw' => $rt_rw,
+            'k_rt' => $k_rt,
+            'k_rw' => $k_rw
+        ];
+        $this->admin_model->update(['kd' => $kd], $data, 'rt_rw');
+        redirect('admin/rt_rw');
+    }
+    public function rt_del($kd)
+    {
+        $this->admin_model->delete(['kd' => $kd], 'rt_rw');
+        redirect('admin/rt_rw');
     }
 }

@@ -20,10 +20,12 @@
                             <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
+
                                         <th>NIK</th>
                                         <th>Nama</th>
+                                        <th>RT/RW</th>
                                         <th>Tempat, Tgl Lahir</th>
-                                        <th>Jenis Kelamin</th>
+                                        <th>Jenkel</th>
                                         <th>Agama</th>
                                         <th>Pendidikan</th>
                                         <th>Pekerjaan</th>
@@ -35,8 +37,10 @@
                                     $no = 1;
                                     foreach ($penduduk as $p) { ?>
                                         <tr>
+
                                             <td><?= $p->nik ?></td>
                                             <td><?= $p->nama ?></td>
+                                            <td><?= $p->rt_rw ?></td>
                                             <td><?= $p->tempat_lh . ', ' . date('d M Y', strtotime($p->tgl_lh)) ?></td>
                                             <td><?php
                                                 if ($p->jenkel == 'L') {
