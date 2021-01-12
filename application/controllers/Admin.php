@@ -137,6 +137,7 @@ class Admin extends CI_Controller
     {
         $data['judul'] = 'Data KK';
         $data['kk'] = $this->admin_model->read('kk');
+        $data['penduduk'] = $this->admin_model->penduduk_kk();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/topbar');
         $this->load->view('templates/sidebar');
@@ -535,5 +536,43 @@ class Admin extends CI_Controller
     {
         $this->admin_model->delete(['kd' => $kd], 'rt_rw');
         redirect('admin/rt_rw');
+    }
+
+    public function kk_add($id)
+    {
+        $data['judul'] = 'Keluarga';
+        $data['penduduk'] = $this->admin_model->edit(['id' => $id], 'penduduk');
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/kk_pend_add', $data);
+        $this->load->view('templates/footer');
+    }
+    public function keluarga_kk()
+    {
+        $id_kk = $this->input->post('kk');
+        $id_penduduk = $this->input->post('penduduk');
+        $hubungan = $this->input->post('hubungan');
+        $data = [
+            'id_kk' => $id_kk,
+            'id_penduduk' => $id_penduduk,
+            'hubungan' => $hubungan
+        ];
+
+        $this->admin_model->insert($data, 'anggota_keluarga');
+        $this->admin_model->update(['id' => $id_penduduk], ['status' => 3], 'penduduk');
+        redirect('admin/datakk');
+    }
+    public function kk_detail($id)
+    {
+        $data['penduduk'] = $this->admin_model->keluarga_kk($id);
+        $data['kk'] = $this->admin_model->edit(['id' => $id], 'kk');
+        $data['judul'] = 'KK Keluarga';
+
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/keluarga_kk', $data);
+        $this->load->view('templates/footer');
     }
 }

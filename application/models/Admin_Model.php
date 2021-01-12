@@ -46,4 +46,12 @@ class Admin_Model extends CI_Model
     {
         return $this->db->query("SELECT *,pendatang.id AS kd_pendatang FROM pendatang JOIN penduduk JOIN rt_rw ON pendatang.nik=penduduk.nik AND penduduk.rt_rw=rt_rw.kd")->result();
     }
+    function penduduk_kk()
+    {
+        return $this->db->query("SELECT * FROM penduduk JOIN rt_rw ON penduduk.rt_rw=rt_rw.kd WHERE status = 1")->result();
+    }
+    function keluarga_kk($id)
+    {
+        return $this->db->query("SELECT * FROM anggota_keluarga JOIN penduduk ON anggota_keluarga.id_penduduk=penduduk.id WHERE anggota_keluarga.id_kk=$id")->result();
+    }
 }
