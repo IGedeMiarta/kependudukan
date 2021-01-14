@@ -16,6 +16,12 @@ class Admin extends CI_Controller
     public function index()
     {
         $data['judul'] = 'Dashboard';
+        if ($this->session->userdata('status') == 'login_admin') {
+            $data['teks'] = '<b>Halaman Dashboard Admin</b> ';
+        } else {
+            $data['teks'] = '<b>Halaman Dashboard Lurah</b> ';
+        }
+
         $this->load->view('templates/header', $data);
         $this->load->view('templates/topbar');
         $this->load->view('templates/sidebar');

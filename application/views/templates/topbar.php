@@ -24,7 +24,11 @@
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <img src="<?= base_url('assets/images/user.png') ?>" alt="profile-user" class="rounded-circle" />
-                    <span class="ml-1 nav-user-name hidden-sm"><?= $nama ?> <i class="mdi mdi-chevron-down"></i> </span>
+                    <span class="ml-1 nav-user-name hidden-sm"><?php if ($this->session->userdata('status') == 'login_admin') {
+                                                                    echo 'Administrator';
+                                                                } else {
+                                                                    echo 'Lurah';
+                                                                } ?> <i class="mdi mdi-chevron-down"></i> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="#"><i class="dripicons-user text-muted mr-2"></i> Profile</a>

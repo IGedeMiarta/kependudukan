@@ -51,7 +51,7 @@ class Auth extends CI_Controller
 						'status' => 'login_petugas'
 					];
 					$this->session->set_userdata($data);
-					redirect('petugas');
+					redirect('admin');
 				}
 			} else {
 				$this->session->set_flashdata('messege', '<div class="alert alert-danger" role="alert">Password Salah</div>');
@@ -65,8 +65,6 @@ class Auth extends CI_Controller
 
 	public function registration()
 	{
-
-
 		$this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[user.username]', [
 			'is_unique' => 'Username Sudah Terdaftar!'
 		]);
@@ -91,15 +89,16 @@ class Auth extends CI_Controller
 		} else {
 			$nama = $this->input->post('name', true);
 			$username = $this->input->post('username', true);
+			$role = $this->input->post('role', true);
 			$data = [
 				'nama' => $nama,
 				'username' => $username,
 				'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
-				'role' => 1
+				'role' => $role
 			];
 			$this->db->insert('user', $data);
 			$this->session->set_flashdata('messege', '<div class="alert alert-success" role="alert">Akun Anda Sudah dibuat, silahkan login</div>');
-			redirect('auth');
+			redirect('auth/registration');
 		}
 	}
 

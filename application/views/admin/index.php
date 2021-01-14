@@ -7,7 +7,7 @@
                 <li class="breadcrumb-item active">Dashboard</li>
             </ol>
         </div>
-        <div class="row justify-content-center">
+        <!-- <div class="row justify-content-center">
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
@@ -56,10 +56,13 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="card">
             <div class="card-body">
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo omnis fugiat eum commodi tenetur saepe, suscipit nobis cupiditate magnam! Autem, beatae error? Sit tenetur officiis autem, iure molestias esse pariatur.</p>
+                <div class="jumbotron">
+                    <p class="display-4"><?= $teks ?></p>
+                    <p class="lead">Sistem Informasi Kependudukan Kelurahan Tetandara Kabupaten Ende, merupakan sistem pencatatan kependudukan mencatat penduduk, pendatang, perpindahan dan kematian, menuju indonesia satu data.</p>
+                </div>
             </div>
         </div>
         <!--end row-->
