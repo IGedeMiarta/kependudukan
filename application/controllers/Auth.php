@@ -7,6 +7,7 @@ class Auth extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->library('form_validation');
+		$this->load->model('admin_model');
 	}
 
 	public function index()
@@ -15,9 +16,9 @@ class Auth extends CI_Controller
 		$this->form_validation->set_rules('password', 'Password', 'trim|required');
 
 		if ($this->form_validation->run() == false) {
-			$this->load->view('auth/auth_header');
-			$this->load->view('auth/login');
-			$this->load->view('auth/auth_footer');
+			// $this->load->view('auth/auth_header');
+			$this->load->view('log/index');
+			// $this->load->view('auth/auth_footer');
 		} else {
 			$this->_login();
 		}
@@ -37,6 +38,7 @@ class Auth extends CI_Controller
 
 				if ($user['role'] == 1) {
 					$data = [
+						'nama' => $user['nama'],
 						'username' => $user['username'],
 						'status' => 'login_admin'
 					];
@@ -44,6 +46,7 @@ class Auth extends CI_Controller
 					redirect('admin');
 				} else if ($user['role'] == 2) {
 					$data = [
+						'nama' => $user['nama'],
 						'username' => $user['username'],
 						'status' => 'login_petugas'
 					];
@@ -67,16 +70,24 @@ class Auth extends CI_Controller
 		$this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[user.username]', [
 			'is_unique' => 'Username Sudah Terdaftar!'
 		]);
-		$this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[8]|matches[password2]', [
+		$this->form_validation->set_rules('password1', 'Password', 'required|trim|min_length[5]|matches[password2]', [
 			'matches' => 'Password tidak cocok!',
 			'min_length' => 'Password terlalu pendek!'
 		]);
-		$this->form_validation->set_rules('password2', 'Password', 'required|trim|min_length[3]|matches[password1]');
+		$this->form_validation->set_rules('password2', 'Password', 'required|trim|min_length[5]|matches[password1]');
 
 		if ($this->form_validation->run() == false) {
-			$this->load->view('auth/auth_header');
-			$this->load->view('auth/registration');
-			$this->load->view('auth/auth_footer');
+			// $this->load->view('auth/auth_header');
+			// $this->load->view('auth/registration');
+			// $this->load->view('auth/auth_footer');
+
+			$data['judul'] = 'Data User';
+			$data['user'] = $this->admin_model->read('user');
+			$this->load->view('templates/header', $data);
+			$this->load->view('templates/topbar');
+			$this->load->view('templates/sidebar');
+			$this->load->view('admin/user');
+			$this->load->view('templates/footer');
 		} else {
 			$nama = $this->input->post('name', true);
 			$username = $this->input->post('username', true);
@@ -103,6 +114,6 @@ class Auth extends CI_Controller
 
 
 		$this->session->set_flashdata('messege', '<div class="alert alert-danger" role="alert">Anda Sudah Logout</div>');
-		redirect('login');
+		redirect('auth');
 	}
 }

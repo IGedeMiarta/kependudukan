@@ -202,7 +202,7 @@ class Admin extends CI_Controller
     public function kelahiran()
     {
         $data['judul'] = 'Data Kalahiran';
-        $data['kelahiran'] = $this->admin_model->read('kelahiran');
+        $data['kelahiran'] = $this->admin_model->datakk();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/topbar');
         $this->load->view('templates/sidebar');
@@ -212,10 +212,11 @@ class Admin extends CI_Controller
     public function kelahiran_add()
     {
         $data['judul'] = 'Tambah Kelahiran';
+        $data['kk'] = $this->admin_model->read('kk');
         $this->load->view('templates/header', $data);
         $this->load->view('templates/topbar');
         $this->load->view('templates/sidebar');
-        $this->load->view('admin/kelahiran_add');
+        $this->load->view('admin/kelahiran_add', $data);
         $this->load->view('templates/footer');
     }
     public function kelahiran_act()
@@ -226,31 +227,46 @@ class Admin extends CI_Controller
         $tgl_lh = $this->input->post('tgl_lh');
         $jenkel = $this->input->post('jenis_kelamin');
         $agama = $this->input->post('agama');
-        $nomer = $this->db->get_where('kk', ['no_kk' => $no_kk])->row_array();
-        if ($nomer) {
-            $data = [
-                'nik' => '-',
-                'nama' => $nama,
-                'tempat_lh' => $tempat_lh,
-                'tgl_lh' => $tgl_lh,
-                'jenkel' => $jenkel,
-                'agama' => $agama,
-                'pendidikan' => 'Balita',
-                'pekerjaan' => 'Balita',
-                'status' => 1
-            ];
-            $this->admin_model->insert($data, 'penduduk');
-            $data2 = [
-                'nama' => $nama,
-                'tgl_lh' => $tgl_lh,
-                'id_kk' => $no_kk
-            ];
-            $this->admin_model->insert($data2, 'kelahiran');
-            redirect('admin/kelahiran');
-        } else {
-            $this->session->set_flashdata('messege', '<div class="alert alert-danger" role="alert">Nomer KK Tidak Terdaftar</div>');
-            redirect('admin/kelahiran_add');
-        }
+
+        $data2 = [
+            'nama' => $nama,
+            'tgl_lh' => $tgl_lh,
+            'id_kk' => $no_kk
+        ];
+        $this->admin_model->insert($data2, 'kelahiran');
+        $kk = $this->admin_model->edit(['id_kk' => $no_kk], 'anggota_keluarga');
+        $ortu = $this->admin_model->edit(['id' => $kk['id_penduduk']], 'penduduk');
+        $rt_rw = $ortu['rt_rw'];
+
+        $data = [
+            'rt_rw' => $rt_rw,
+            'nik' => '-',
+            'nama' => $nama,
+            'tempat_lh' => $tempat_lh,
+            'tgl_lh' => $tgl_lh,
+            'jenkel' => $jenkel,
+            'agama' => $agama,
+            'pendidikan' => 'Balita',
+            'pekerjaan' => 'Balita',
+            'status' => 1
+        ];
+        $this->admin_model->insert($data, 'penduduk');
+
+
+        $pendududuk = $this->admin_model->edit(['nama' => $nama], 'penduduk');
+        $id = $pendududuk['id'];
+        $data3 = [
+            'id_kk' => $no_kk,
+            'id_penduduk' => $id,
+            'hubungan' => 'Anak'
+        ];
+        $this->admin_model->insert($data3, 'anggota_keluarga');
+        redirect('admin/kelahiran');
+    }
+    public function kelahiran_del($id)
+    {
+        $this->admin_model->delete(['id' => $id], 'kelahiran');
+        redirect('admin/kelahiran');
     }
     public function pendatang()
     {
@@ -284,6 +300,7 @@ class Admin extends CI_Controller
         $pekerjaan = $this->input->post('pekerjaan');
         $alamat_tinggal = $this->input->post('tempat_tinggal');
         $rt_rw = $this->input->post('rt');
+        $pindah = date("Y-m-d");
         $data = [
             'rt_rw' => $rt_rw,
             'nik' => $nik,
@@ -299,6 +316,7 @@ class Admin extends CI_Controller
         $this->admin_model->insert($data, 'penduduk');
         $data2 = [
             'nik' => $nik,
+            'tgl_pindah' => $pindah,
             'nama' => $nama,
             'tempat_lh' => $tempat_lh,
             'tgl_lh' => $tgl_lh,
@@ -462,6 +480,7 @@ class Admin extends CI_Controller
         ];
         $this->admin_model->insert($data, 'meninggal');
         $this->admin_model->update(['id' => $id], ['status' => 0], 'penduduk');
+        $this->admin_model->update(['id_penduduk' => $id], ['ket' => 0], 'anggota_keluarga');
         redirect('admin/kematian');
     }
     public function fam()
@@ -556,7 +575,8 @@ class Admin extends CI_Controller
         $data = [
             'id_kk' => $id_kk,
             'id_penduduk' => $id_penduduk,
-            'hubungan' => $hubungan
+            'hubungan' => $hubungan,
+            'ket' => 1
         ];
 
         $this->admin_model->insert($data, 'anggota_keluarga');

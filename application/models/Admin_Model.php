@@ -11,6 +11,7 @@ class Admin_Model extends CI_Model
     {
         $this->db->insert($table, $data);
     }
+
     function edit($where, $table)
     {
         return $this->db->get_where($table, $where)->row_Array();
@@ -28,7 +29,7 @@ class Admin_Model extends CI_Model
     }
     function datakk()
     {
-        return $this->db->query("")->result();
+        return $this->db->query("SELECT *,kelahiran.id AS id_kel FROM kelahiran JOIN kk ON kelahiran.id_kk=kk.id")->result();
     }
     function pindah()
     {
@@ -52,6 +53,6 @@ class Admin_Model extends CI_Model
     }
     function keluarga_kk($id)
     {
-        return $this->db->query("SELECT * FROM anggota_keluarga JOIN penduduk ON anggota_keluarga.id_penduduk=penduduk.id WHERE anggota_keluarga.id_kk=$id")->result();
+        return $this->db->query("SELECT * FROM anggota_keluarga JOIN penduduk JOIN rt_rw ON anggota_keluarga.id_penduduk=penduduk.id AND penduduk.rt_rw=rt_rw.kd WHERE anggota_keluarga.id_kk=$id")->result();
     }
 }

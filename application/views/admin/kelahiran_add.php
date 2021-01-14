@@ -19,9 +19,14 @@
                         <div class="row">
                             <div class="col-lg-11">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 ">NO KK</label>
+                                    <label class="col-sm-2 ">KK</label>
                                     <div class="col-sm-10">
-                                        <input class="form-control" placeholder="Nomer Induk KK" type="number" name="no_kk">
+                                        <select name="no_kk" id="" class="form-control">
+                                            <option>--pilih</option>
+                                            <?php foreach ($kk as $k) { ?>
+                                                <option value="<?= $k->id ?>"><?= $k->no_kk . ' - ' . $k->kepala ?></option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">

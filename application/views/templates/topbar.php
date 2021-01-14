@@ -16,16 +16,20 @@
         </div>
 
         <ul class="list-unstyled topbar-nav float-right mb-0">
+            <?php
 
+            $nama = $this->session->userdata('nama');
+
+            ?>
             <li class="dropdown">
                 <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                    <img src="<?= base_url('assets/images/users/user-1.jpg') ?>" alt="profile-user" class="rounded-circle" />
-                    <span class="ml-1 nav-user-name hidden-sm">ADMINISTRATOR <i class="mdi mdi-chevron-down"></i> </span>
+                    <img src="<?= base_url('assets/images/user.png') ?>" alt="profile-user" class="rounded-circle" />
+                    <span class="ml-1 nav-user-name hidden-sm"><?= $nama ?> <i class="mdi mdi-chevron-down"></i> </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="#"><i class="dripicons-user text-muted mr-2"></i> Profile</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#"><i class="dripicons-exit text-muted mr-2"></i> Logout</a>
+                    <a class="dropdown-item" href="<?= base_url('auth/logout') ?>"><i class="dripicons-exit text-muted mr-2"></i> Logout</a>
                 </div>
             </li>
         </ul>
@@ -47,19 +51,19 @@
 <div class="page-wrapper-img">
     <div class="page-wrapper-img-inner">
         <div class="sidebar-user media">
-            <img src="<?= base_url('assets/images/users/user-1.jpg') ?>" alt="user" class="rounded-circle img-thumbnail mb-1">
+            <img src="<?= base_url('assets/images/user.png') ?>" alt="user" class="rounded-circle img-thumbnail mb-1">
             <span class="online-icon"><i class="mdi mdi-record text-success"></i></span>
             <div class="media-body">
-                <h5 class="text-light">Hanna Amizah</h5>
+                <h5 class="text-light"><?= $nama ?></h5>
                 <ul class="list-unstyled list-inline mb-0 mt-2">
                     <li class="list-inline-item">
                         <a href="#" class=""><i class="mdi mdi-account text-light"></i></a>
                     </li>
-                    <li class="list-inline-item">
+                    <!-- <li class="list-inline-item">
                         <a href="#" class=""><i class="mdi mdi-settings text-light"></i></a>
-                    </li>
+                    </li> -->
                     <li class="list-inline-item">
-                        <a href="#" class=""><i class="mdi mdi-power text-danger"></i></a>
+                        <a href="<?= base_url('auth/logout') ?>" class=""><i class="mdi mdi-power text-danger"></i></a>
                     </li>
                 </ul>
             </div>
