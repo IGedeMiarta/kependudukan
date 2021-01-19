@@ -269,6 +269,55 @@ class Admin extends CI_Controller
         $this->admin_model->insert($data3, 'anggota_keluarga');
         redirect('admin/kelahiran');
     }
+    public function kelahiran_edt($id)
+    {
+        $data['judul'] = 'Edit Kelahiran';
+        $data['kelahiran'] = $this->admin_model->kelahiran_edt($id);
+        $data['kk'] = $this->admin_model->read('kk');
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/topbar');
+        $this->load->view('templates/sidebar');
+        $this->load->view('admin/kelahiran_edt', $data);
+        $this->load->view('templates/footer');
+    }
+    public function kelahiran_update($id)
+    {
+        $kelahiran = $this->admin_model->edit(['id' => $id], 'kelahiran');
+        $namaawal = $kelahiran['nama'];
+        $no_kk = $this->input->post('no_kk');
+        $nama = $this->input->post('nama');
+        $tempat_lh = $this->input->post('tempat_lh');
+        $tgl_lh = $this->input->post('tgl_lh');
+        $jenkel = $this->input->post('jenis_kelamin');
+        $agama = $this->input->post('agama');
+        $data2 = [
+            'nama' => $nama,
+            'tgl_lh' => $tgl_lh,
+            'id_kk' => $no_kk
+        ];
+        $this->admin_model->update(['id' => $id], $data2, 'kelahiran');
+        $kk = $this->admin_model->edit(['id_kk' => $no_kk], 'anggota_keluarga');
+        $ortu = $this->admin_model->edit(['id' => $kk['id_penduduk']], 'penduduk');
+        $rt_rw = $ortu['rt_rw'];
+
+        $data = [
+            'rt_rw' => $rt_rw,
+            'nik' => '-',
+            'nama' => $nama,
+            'tempat_lh' => $tempat_lh,
+            'tgl_lh' => $tgl_lh,
+            // 'jenkel' => $jenkel,
+            'agama' => $agama,
+            'pendidikan' => 'Balita',
+            'pekerjaan' => 'Balita',
+            'status' => 1
+        ];
+
+        $this->admin_model->update(['nama' => $namaawal], $data, 'penduduk');
+        redirect('admin/kelahiran');
+    }
+
+
     public function kelahiran_del($id)
     {
         $this->admin_model->delete(['id' => $id], 'kelahiran');
