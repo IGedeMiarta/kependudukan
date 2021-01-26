@@ -19,7 +19,7 @@
                             <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th>NIK</th>
+                                        <!-- <th>NIK</th> -->
                                         <th>Nama</th>
                                         <th>RT/RW</th>
                                         <th>Tempat, Tgl Lahir</th>
@@ -32,13 +32,8 @@
                                     $no = 1;
                                     foreach ($penduduk as $p) { ?>
                                         <tr>
-
-                                            <td><?= $p->nik ?></td>
-                                            <td><?php if ($p->ket == 0) {
-                                                    echo '<b>(alm) </b>' . $p->nama;
-                                                } else {
-                                                    echo $p->nama;
-                                                }  ?></td>
+                                            <!-- <td><?= $p->nik ?></td> -->
+                                            <td><?= $p->nama  ?></td>
                                             <td><?= $p->rt_rw ?></td>
                                             <td><?= $p->tempat_lh . ', ' . date('d M Y', strtotime($p->tgl_lh)) ?></td>
                                             <td><?php

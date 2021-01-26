@@ -20,9 +20,11 @@
                             <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                                 <thead>
                                     <tr>
+                                        <th>No KK</th>
                                         <th>Tanggal Lahir</th>
                                         <th>Nama</th>
-                                        <th>No KK</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>Hubungan</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -31,9 +33,15 @@
                                     $no = 1;
                                     foreach ($kelahiran as $k) { ?>
                                         <tr>
-                                            <td><?= date('d M Y', strtotime($k->tgl_lh)) ?></td>
-                                            <td><?= $k->nama ?></td>
                                             <td><?= $k->no_kk ?></td>
+                                            <td><?= date('d-m-Y', strtotime($k->tgl_lh)) ?></td>
+                                            <td><?= $k->nama ?></td>
+                                            <td><?php if ($k->jenkel == 'L') {
+                                                    echo 'Laki-laki';
+                                                } else {
+                                                    echo 'Perempuan';
+                                                } ?></td>
+                                            <td><?= $k->hubungan ?></td>
                                             <td>
                                                 <a href="<?= base_url('admin/kelahiran_edt/') . $k->id_kel ?>" class="badge badge-warning"><i class="fas fa-edit"> Edit</i></a>
                                                 <a href="<?= base_url('admin/kelahiran_del/') . $k->id_kel ?>" class="badge badge-danger"><i class="fas fa-trash"> Hapus</i></a>

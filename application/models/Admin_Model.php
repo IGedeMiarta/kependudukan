@@ -53,7 +53,7 @@ class Admin_Model extends CI_Model
     }
     function keluarga_kk($id)
     {
-        return $this->db->query("SELECT * FROM anggota_keluarga JOIN penduduk JOIN rt_rw ON anggota_keluarga.id_penduduk=penduduk.id AND penduduk.rt_rw=rt_rw.kd WHERE anggota_keluarga.id_kk=$id")->result();
+        return $this->db->query("SELECT * FROM anggota_keluarga JOIN penduduk JOIN rt_rw ON anggota_keluarga.id_penduduk=penduduk.id AND penduduk.rt_rw=rt_rw.kd WHERE anggota_keluarga.id_kk=$id ORDER BY anggota_keluarga.id_anggota ASC")->result();
     }
     function kelahiran_edt($id)
     {

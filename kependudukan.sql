@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2021 at 06:04 PM
+-- Generation Time: Jan 26, 2021 at 04:35 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.7
 
@@ -32,7 +32,7 @@ CREATE TABLE `anggota_keluarga` (
   `id_anggota` int(11) NOT NULL,
   `id_kk` int(11) NOT NULL,
   `id_penduduk` int(11) NOT NULL,
-  `hubungan` enum('Kepala','Istri','Anak') NOT NULL,
+  `hubungan` varchar(255) NOT NULL,
   `ket` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -41,9 +41,10 @@ CREATE TABLE `anggota_keluarga` (
 --
 
 INSERT INTO `anggota_keluarga` (`id_anggota`, `id_kk`, `id_penduduk`, `hubungan`, `ket`) VALUES
-(10, 5, 17, 'Kepala', 1),
-(11, 5, 18, 'Istri', 1),
-(12, 5, 19, 'Anak', 0);
+(18, 6, 28, 'Kepala', 1),
+(19, 6, 29, 'Istri', 1),
+(22, 6, 32, 'Anak Pertama', 0),
+(23, 6, 33, 'Anak Kedua', 1);
 
 -- --------------------------------------------------------
 
@@ -55,6 +56,8 @@ CREATE TABLE `kelahiran` (
   `id` int(11) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `tgl_lh` date NOT NULL,
+  `jenkel` varchar(255) NOT NULL,
+  `hubungan` varchar(255) NOT NULL,
   `id_kk` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -62,8 +65,9 @@ CREATE TABLE `kelahiran` (
 -- Dumping data for table `kelahiran`
 --
 
-INSERT INTO `kelahiran` (`id`, `nama`, `tgl_lh`, `id_kk`) VALUES
-(9, 'I Gede Bayu Setiadi Sayoga', '2021-01-14', 5);
+INSERT INTO `kelahiran` (`id`, `nama`, `tgl_lh`, `jenkel`, `hubungan`, `id_kk`) VALUES
+(18, 'Reta Anita', '2021-01-26', 'P', 'Anak Pertama', 6),
+(19, 'Bayu Setiadi Sayoga', '2021-01-27', 'L', 'Anak Kedua', 6);
 
 -- --------------------------------------------------------
 
@@ -82,7 +86,7 @@ CREATE TABLE `kk` (
 --
 
 INSERT INTO `kk` (`id`, `no_kk`, `kepala`) VALUES
-(5, '19000000001', 'I Gede Miarta Yasa');
+(6, '150009900301', 'Assabil Nur Alfiansyah');
 
 -- --------------------------------------------------------
 
@@ -102,7 +106,7 @@ CREATE TABLE `meninggal` (
 --
 
 INSERT INTO `meninggal` (`id`, `id_penduduk`, `tgl_meninggal`, `sebab`) VALUES
-(3, 19, '2021-01-01', 'Sakit');
+(4, 32, '2021-01-26', 'Sakit DBD');
 
 -- --------------------------------------------------------
 
@@ -129,8 +133,7 @@ CREATE TABLE `pendatang` (
 --
 
 INSERT INTO `pendatang` (`id`, `tgl_pindah`, `nik`, `nama`, `jenkel`, `tempat_lh`, `tgl_lh`, `agama`, `pendidikan`, `pekerjaan`, `alamat_tinggal`) VALUES
-(3, '2021-01-14', '19006', 'Assabil Nur ', 'L', 'Yogya', '2021-01-14', 'Islam', 'Mahasiswa', 'Pelajar', 'Denpasar bali'),
-(4, '2021-01-14', '19004', 'I Putu Ela Adi Saputra', 'L', 'Denpasar', '2021-01-15', 'Hindu', 'Mahasiswa', 'Pelajar', 'Jl Saner No 10');
+(5, '2021-01-25', '191892363636636661', 'andrei As\'yari zein', 'L', 'Denpasar', '1999-01-22', 'Islam', 'Sarjana', 'Wiraswasta', 'Jl Lentnan Kolonel Adipati, No 111. ');
 
 -- --------------------------------------------------------
 
@@ -140,7 +143,6 @@ INSERT INTO `pendatang` (`id`, `tgl_pindah`, `nik`, `nama`, `jenkel`, `tempat_lh
 
 CREATE TABLE `penduduk` (
   `id` int(11) NOT NULL,
-  `rt_rw` int(11) NOT NULL,
   `nik` varchar(255) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `tempat_lh` varchar(255) NOT NULL,
@@ -149,6 +151,7 @@ CREATE TABLE `penduduk` (
   `agama` varchar(255) NOT NULL,
   `pendidikan` varchar(255) NOT NULL,
   `pekerjaan` varchar(255) NOT NULL,
+  `rt_rw` int(11) NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -156,13 +159,12 @@ CREATE TABLE `penduduk` (
 -- Dumping data for table `penduduk`
 --
 
-INSERT INTO `penduduk` (`id`, `rt_rw`, `nik`, `nama`, `tempat_lh`, `tgl_lh`, `jenkel`, `agama`, `pendidikan`, `pekerjaan`, `status`) VALUES
-(17, 1, '19001', 'I Gede Miarta Yasa', 'Ekasari', '2021-01-01', 'L', 'Hindu', 'Mahasiswa', 'Pelajar', 3),
-(18, 1, '19002', 'Ni Putu Rita Ratna Dewi', 'Ekasari', '2021-01-01', 'P', 'Hindu', 'Mahasiswa', 'Pelajar', 3),
-(19, 1, '-', 'I Gede Bayu Setiadi Sayoga', 'Ekasari', '2021-01-14', 'L', 'Hindu', 'Balita', 'Balita', 0),
-(20, 1, '19006', 'Assabil Nur ', 'Yogya', '2021-01-14', 'L', 'Islam', 'Mahasiswa', 'Pelajar', 2),
-(21, 1, '19004', 'I Putu Ela Adi Saputra', 'Denpasar', '2021-01-15', 'L', 'Hindu', 'Mahasiswa', 'Pelajar', 2),
-(22, 1, '19023', 'UUS ', 'Ekasari', '2021-01-14', 'L', 'Islam', 'Siswa', 'Pelajar', 0);
+INSERT INTO `penduduk` (`id`, `nik`, `nama`, `tempat_lh`, `tgl_lh`, `jenkel`, `agama`, `pendidikan`, `pekerjaan`, `rt_rw`, `status`) VALUES
+(28, '19090000019901', 'Assabil Nur Alfiansyah', 'Ende', '1995-02-07', 'L', 'Islam', 'Sarjana', 'Buruh', 1, 3),
+(29, '192000199910111', 'claudia desyana d. k', 'Kupang', '1999-05-21', 'P', 'Islam', 'Sarjana', 'Guru', 1, 3),
+(32, '190900000199022', 'Reta Anita', 'Ende', '2021-01-26', 'P', 'Islam', 'Balita', 'Balita', 1, 0),
+(33, '15000019822211', 'Bayu Setiadi Sayoga', 'Ende', '2021-01-27', 'L', 'Islam', 'Balita', 'Balita', 1, 3),
+(34, '191892363636636661', 'andrei As\'yari zein', 'Denpasar', '1999-01-22', 'L', 'Islam', 'Sarjana', 'Wiraswasta', 1, 2);
 
 -- --------------------------------------------------------
 
@@ -177,13 +179,6 @@ CREATE TABLE `pindah` (
   `tujuan` varchar(255) NOT NULL,
   `ket` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pindah`
---
-
-INSERT INTO `pindah` (`id`, `id_penduduk`, `tgl_pindah`, `tujuan`, `ket`) VALUES
-(4, 22, '2021-01-14', 'Juan, Sulawesi', 'Menetap');
 
 -- --------------------------------------------------------
 
@@ -238,7 +233,9 @@ INSERT INTO `user` (`id`, `nama`, `username`, `password`, `role`) VALUES
 -- Indexes for table `anggota_keluarga`
 --
 ALTER TABLE `anggota_keluarga`
-  ADD PRIMARY KEY (`id_anggota`);
+  ADD PRIMARY KEY (`id_anggota`),
+  ADD KEY `id_kk` (`id_kk`),
+  ADD KEY `id_penduduk` (`id_penduduk`);
 
 --
 -- Indexes for table `kelahiran`
@@ -256,7 +253,8 @@ ALTER TABLE `kk`
 -- Indexes for table `meninggal`
 --
 ALTER TABLE `meninggal`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_penduduk` (`id_penduduk`);
 
 --
 -- Indexes for table `pendatang`
@@ -268,13 +266,15 @@ ALTER TABLE `pendatang`
 -- Indexes for table `penduduk`
 --
 ALTER TABLE `penduduk`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `rt_rw` (`rt_rw`);
 
 --
 -- Indexes for table `pindah`
 --
 ALTER TABLE `pindah`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_penduduk` (`id_penduduk`);
 
 --
 -- Indexes for table `rt_rw`
@@ -296,37 +296,37 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `anggota_keluarga`
 --
 ALTER TABLE `anggota_keluarga`
-  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_anggota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `kelahiran`
 --
 ALTER TABLE `kelahiran`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `kk`
 --
 ALTER TABLE `kk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `meninggal`
 --
 ALTER TABLE `meninggal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `pendatang`
 --
 ALTER TABLE `pendatang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `penduduk`
 --
 ALTER TABLE `penduduk`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `pindah`
@@ -345,6 +345,35 @@ ALTER TABLE `rt_rw`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `anggota_keluarga`
+--
+ALTER TABLE `anggota_keluarga`
+  ADD CONSTRAINT `anggota_keluarga_ibfk_1` FOREIGN KEY (`id_kk`) REFERENCES `kk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `anggota_keluarga_ibfk_2` FOREIGN KEY (`id_penduduk`) REFERENCES `penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `meninggal`
+--
+ALTER TABLE `meninggal`
+  ADD CONSTRAINT `meninggal_ibfk_1` FOREIGN KEY (`id_penduduk`) REFERENCES `penduduk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `penduduk`
+--
+ALTER TABLE `penduduk`
+  ADD CONSTRAINT `penduduk_ibfk_1` FOREIGN KEY (`rt_rw`) REFERENCES `rt_rw` (`kd`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pindah`
+--
+ALTER TABLE `pindah`
+  ADD CONSTRAINT `pindah_ibfk_1` FOREIGN KEY (`id_penduduk`) REFERENCES `penduduk` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

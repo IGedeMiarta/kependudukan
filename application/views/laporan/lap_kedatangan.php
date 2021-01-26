@@ -63,6 +63,7 @@
                                     <th scope="col">TTL</th>
                                     <th scope="col">Agama</th>
                                     <th scope="col">Alamat Tinggal</th>
+                                    <th scope="col">Surat</th>
                                 </tr>
                             </thead>
 
@@ -82,13 +83,12 @@
                                         <td><?= $m->tempat_lh . ', ' . $m->tgl_lh ?></td>
                                         <td><?= $m->agama ?></td>
                                         <td><?= $m->alamat_tinggal ?></td>
+                                        <td><a href="<?= base_url('laporan/surat_datang/') . $m->id ?>" class="badge badge-success"><i class="fas fa-print"></i> Surat Keterangan Pendatang</a></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
                         </table>
                     </div>
-
-
                 </div>
 
             </div>

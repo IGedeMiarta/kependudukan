@@ -26,6 +26,17 @@ class Laporan extends CI_Controller
         $this->load->view('laporan/lap_kelahiran', $data);
         $this->load->view('templates/footer');
     }
+    function surat_lahir($id)
+    {
+        $data['lahir'] = $this->report->kelahiran_cari($id);
+        $ortu = $this->report->kelahiran_cari($id);
+        $ayah = $ortu['ayah'];
+        $ibu = $ortu['ibu'];
+        $data['ayah'] = $this->report->ayah($ayah);
+        $data['ibu'] = $this->report->ibu($ibu);
+
+        $this->load->view('laporan/surat_lahir', $data);
+    }
     function lap_kelahiran_cetak()
     {
         if (isset($_GET['tanggal_mulai']) && isset($_GET['tanggal_sampai'])) {
@@ -57,6 +68,14 @@ class Laporan extends CI_Controller
         $this->load->view('laporan/lap_kedatangan', $data);
         $this->load->view('templates/footer');
     }
+    function surat_datang($id)
+    {
+        $data['datang'] = $this->report->surat_datang($id);
+        // $warga = $this->report->surat_datang($id);
+        // $nama = $warga['nama'];
+        // $data['penduduk'] = $this->report->pendatang_nama($nama);
+        $this->load->view('laporan/surat_pendatang', $data);
+    }
     function lap_kedatangan_cetak()
     {
         if (isset($_GET['tanggal_mulai']) && isset($_GET['tanggal_sampai'])) {
@@ -71,6 +90,7 @@ class Laporan extends CI_Controller
             redirect('laporan/lap_kedatangan');
         }
     }
+
     function lap_pindah()
     {
         if (isset($_GET['tanggal_mulai']) && isset($_GET['tanggal_sampai'])) {
@@ -132,5 +152,10 @@ class Laporan extends CI_Controller
         } else {
             redirect('laporan/lap_pindah');
         }
+    }
+    function surat_kematian($id)
+    {
+        $data['mati'] = $this->report->surat_mati($id);
+        $this->load->view('laporan/surat_kematian', $data);
     }
 }

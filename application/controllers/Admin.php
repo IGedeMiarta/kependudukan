@@ -92,7 +92,6 @@ class Admin extends CI_Controller
 
     public function penduduk_update($id)
     {
-
         $nik = $this->input->post('nik');
         $nama = $this->input->post('nama');
         $tempat_lh = $this->input->post('tempat_lh');
@@ -228,25 +227,31 @@ class Admin extends CI_Controller
     public function kelahiran_act()
     {
         $no_kk = $this->input->post('no_kk');
+        $nip = $this->input->post('nip');
         $nama = $this->input->post('nama');
         $tempat_lh = $this->input->post('tempat_lh');
         $tgl_lh = $this->input->post('tgl_lh');
         $jenkel = $this->input->post('jenis_kelamin');
         $agama = $this->input->post('agama');
+        $hubungan = $this->input->post('hubungan');
 
         $data2 = [
             'nama' => $nama,
             'tgl_lh' => $tgl_lh,
+            'jenkel' => $jenkel,
+            'hubungan' => $hubungan,
             'id_kk' => $no_kk
         ];
         $this->admin_model->insert($data2, 'kelahiran');
+
+
         $kk = $this->admin_model->edit(['id_kk' => $no_kk], 'anggota_keluarga');
         $ortu = $this->admin_model->edit(['id' => $kk['id_penduduk']], 'penduduk');
         $rt_rw = $ortu['rt_rw'];
 
         $data = [
             'rt_rw' => $rt_rw,
-            'nik' => '-',
+            'nik' => $nip,
             'nama' => $nama,
             'tempat_lh' => $tempat_lh,
             'tgl_lh' => $tgl_lh,
@@ -254,21 +259,23 @@ class Admin extends CI_Controller
             'agama' => $agama,
             'pendidikan' => 'Balita',
             'pekerjaan' => 'Balita',
-            'status' => 1
+            'status' => 3
         ];
         $this->admin_model->insert($data, 'penduduk');
-
 
         $pendududuk = $this->admin_model->edit(['nama' => $nama], 'penduduk');
         $id = $pendududuk['id'];
         $data3 = [
             'id_kk' => $no_kk,
             'id_penduduk' => $id,
-            'hubungan' => 'Anak'
+            'hubungan' => $hubungan,
+            'ket' => 1
         ];
         $this->admin_model->insert($data3, 'anggota_keluarga');
+
         redirect('admin/kelahiran');
     }
+
     public function kelahiran_edt($id)
     {
         $data['judul'] = 'Edit Kelahiran';

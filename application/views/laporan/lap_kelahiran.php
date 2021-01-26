@@ -61,6 +61,7 @@
                                     <th scope="col">Nama </th>
                                     <th scope="col">Ayah</th>
                                     <th scope="col">Ibu</th>
+                                    <th scope="col">Surat</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,9 +72,9 @@
                                         <td><?= $m->no_kk ?></td>
                                         <td><?= date('d M Y', strtotime($m->tgl_lh)); ?></td>
                                         <td><?= $m->nama ?></td>
-
                                         <td><?= $m->ayah ?></td>
                                         <td><?= $m->ibu ?></td>
+                                        <td><a href="<?= base_url('laporan/surat_lahir/') . $m->kelahiran ?>" class="badge badge-success"><i class="fas fa-print"></i> Cetak Surat</a></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>

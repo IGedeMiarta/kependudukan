@@ -61,6 +61,7 @@
                                     <th scope="col">Nama </th>
                                     <th scope="col">Jenkel</th>
                                     <th scope="col">TTL</th>
+                                    <th scope="col">Surat</th>
                                 </tr>
                             </thead>
 
@@ -79,6 +80,7 @@
                                             }
                                             ?></td>
                                         <td><?= $m->tempat_lh . ', ' . $m->tgl_lh ?></td>
+                                        <td><a href="<?= base_url('laporan/surat_kematian/') . $m->mati ?>" class="badge badge-success"><i class="fas fa-print"></i> Cetak Surat</a></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
